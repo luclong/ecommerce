@@ -1,0 +1,133 @@
+﻿@using ecommerce.Models;
+<link href="~/Content/css/style_Form_DangNhap.css" rel="stylesheet" />
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<div class="header-top">
+    <div class="container">
+        <div class="search">
+            @*Tao form submit action ve tim kiem*@
+            @using (Html.BeginForm("LayTuKetQuaTimKiem", "TimKiem"))
+            {
+                <input type="text" name="sTuKhoa" placeholder="Nhập vào sản phẩm cần tìm kiếm..." />
+                <input type="submit" value="Tìm Kiếm" />
+                //< input type = "text" value = "Search " onfocus = "this.value = '';" onblur = "if (this.value == '') {this.value = 'Search';}" >
+                //< input type = "submit" value = "Go" >
+            }
+        </div>
+        <div class="header-left">
+            <ul>
+                @if (Session["TaiKhoan"] != null && Session["TaiKhoan"] != "")
+                {
+                    ThanhVien tv = (ThanhVien)Session["TaiKhoan"];
+                    @*if (tv.MaLoaiTV == 1 || tv.MaLoaiTV == 2)
+                    {
+                    @Html.ActionLink("Admin", "Index", "ThongKe");
+                    }*@
+                    <li style="color:#fff">Chào @tv.HoTen</li>
+
+                    @Html.ActionLink("Đăng Xuất", "Dangxuat", "Home")
+                }
+                else
+                {
+                    <li><a href="#btndangnhap" id="btndangnhap">Đăng Nhập</a></li>
+                    <li>@Html.RouteLink("Đăng Kí", "login")</li>
+                }
+            </ul>
+            @*Chen partial view gio hang vao layout(Tach icon gio hang sang 1 partial view moi)*@
+            @Html.Action("GioHangPartial","GioHang")
+            @*<div class="cart box_1">
+                <a href="checkout.html">
+                    <h3>
+                        <div class="total">
+                            <span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> items)
+                        </div>
+                        <img src="~/Content/images/cart.png" alt="" />
+                    </h3>
+                </a>
+                <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
+
+            </div>*@
+            <div class="clearfix"> </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+
+
+
+<style>
+    .red {
+        color: white;
+        margin-left: 100%;
+    }
+</style>
+
+<div id="popup_login">
+
+    <div class="mid-cls">
+        <span class="glyphicon glyphicon-remove red" id="close-form"></span>
+        <div class="swm-right-w3ls">
+            <h2> Đăng Nhập</h2>
+                <div class="main">
+                    <div class="form-left-w3l">
+                        <input type="text" id="txttaikhoan" class="TaiKhoan" placeholder="Tên Đăng Nhập" required>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-right-w3ls">
+                        <input type="password" id="txtmatkhau" class="MatKhau" placeholder="Password" required>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="left-side">
+                        <input type="checkbox" class="checked">
+                        <span class="span">Remember me </span>
+                        <a href="#" class="for">Forgot password...?</a>
+                    </div>
+                    <h3 style="font-weight:bold;color:red;text-align:left" id="ThongBao"></h3>
+                    <div class="btnn">
+                        <button type="submit" id="btnlogin">Login</button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Content/js/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+    $("#btndangnhap").click(function () {
+        $("#popup_login").fadeIn(500);
+    });
+    $("#close-form").click(function () {
+        $("#popup_login").hide();
+    });
+    $(document).ready(function () {
+
+        $("#btnlogin").click(function () {
+
+            Login();
+        })
+    });
+
+    function Login() {
+        $.ajax({
+            url: "/Home/DangNhap",
+            type: "GET",
+            data: {
+                username: $("#txttaikhoan").val(),
+                password: $("#txtmatkhau").val()
+            },
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result == 1) {
+                    location.reload();
+                }
+                else {
+                    $("#ThongBao").html("Tài khoản hoặc mật khẩu không đúng");
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }  
+</script>
