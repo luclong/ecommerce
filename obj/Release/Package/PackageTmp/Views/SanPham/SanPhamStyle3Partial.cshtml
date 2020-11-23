@@ -1,0 +1,17 @@
+﻿@foreach (var item in Model)
+{
+    <div class="col-md-4 grid-top">
+        <a href="@Url.RouteUrl("XemChiTiet", new {@id=item.MaSP,@tensp=item.TenSP})" class="b-link-stripe b-animate-go  thickbox">
+            <img class="img-responsive" src="@Url.Content("~/Content/img-sp/SanPham/"+item.HinhAnh)" alt="">
+            <div class="b-wrapper">
+                <h3 class="b-animate b-from-left    b-delay03  " style="text-align: left; font-size:15pt">
+                    @Html.Raw(item.CauHinh)
+                </h3>
+            </div>
+        </a>
+
+
+        <p><a href="@Url.Action("ThemGioHang","GioHang", new {@MaSP=item.MaSP,@strURL=Request.Url.ToString()  })">@item.TenSP</a></p>
+    </div>
+}
+

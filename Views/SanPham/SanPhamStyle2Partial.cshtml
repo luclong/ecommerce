@@ -1,0 +1,70 @@
+﻿@using ecommerce.Models;
+@model IEnumerable<SanPham>
+    <style>
+        .text-font-size-10{
+            font-size: 10pt;
+        }
+        .text-font-size-6 {
+            font-size: 6pt;
+        }
+        .text-font-size-8 {
+            font-size: 8pt;
+        }
+        .text-font-size-13 {
+            font-size: 13pt;
+        }
+    </style>
+<div class="content-top-bottom">
+    <div class="col-md-6 men">
+        <a href="@Url.Action("XemChiTiet","SanPham",new {id=Model.ElementAt(0).MaSP })" class="b-link-stripe b-animate-go  thickbox">
+            <img class="img-responsive" src="@Url.Content("~/Content/img-sp/SanPham/"+Model.ElementAt(0).HinhAnh)" alt="">
+            <div class="b-wrapper">
+                <h3 class="b-animate b-from-top top-in   b-delay03 text-font-size-13">
+                    <span>@Html.Raw(Model.ElementAt(0).CauHinh)</span>
+                </h3>
+            </div>
+        </a>
+        <h3>@Model.ElementAt(0).TenSP</h3>
+
+
+    </div>
+    <div class="col-md-6">
+        <div class="col-md1 ">
+            <a href="@Url.Action("XemChiTiet","SanPham",new {id=Model.ElementAt(1).MaSP })" class="b-link-stripe b-animate-go  thickbox">
+                <img class="img-responsive" src="@Url.Content("~/Content/img-sp/SanPham/"+Model.ElementAt(1).HinhAnh)" alt="">
+                <div class="b-wrapper">
+                    <h3 class="b-animate b-from-top top-in1   b-delay03 text-font-size-10">
+                        <span>@Html.Raw(Model.ElementAt(1).CauHinh)</span>
+                    </h3>
+                </div>
+            </a>
+
+        </div>
+        <div class="col-md2">
+            <div class="col-md-6 men1">
+                <a href="@Url.Action("XemChiTiet","SanPham",new {id=Model.ElementAt(2).MaSP })" class="b-link-stripe b-animate-go  thickbox">
+                    <img class="img-responsive" src="@Url.Content("~/Content/img-sp/SanPham/"+Model.ElementAt(2).HinhAnh)" alt="">
+                    <div class="b-wrapper">
+                        <h3 class="b-animate b-from-top top-in2   b-delay03 text-font-size-6">
+                            <span>@Html.Raw(Model.ElementAt(2).CauHinh)</span>
+                        </h3>
+                    </div>
+                </a>
+
+            </div>
+            <div class="col-md-6 men2">
+                <a href="@Url.Action("XemChiTiet","SanPham",new {id=Model.ElementAt(3).MaSP })" class="b-link-stripe b-animate-go  thickbox">
+                    <img class="img-responsive" src="@Url.Content("~/Content/img-sp/SanPham/"+Model.ElementAt(3).HinhAnh)" alt="">
+                    <div class="b-wrapper">
+                        <h3 class="b-animate b-from-top top-in2   b-delay03 text-font-size-6">
+                            <span>@Html.Raw(Model.ElementAt(3).CauHinh)</span>
+                        </h3>
+                    </div>
+                </a>
+
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+

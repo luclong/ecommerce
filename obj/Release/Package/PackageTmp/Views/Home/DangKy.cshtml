@@ -1,0 +1,151 @@
+﻿@using CaptchaMvc.HtmlHelpers
+@using CaptchaMvc;
+
+@using ecommerce.Models;
+@model ThanhVien
+
+@{
+    ViewBag.Title = "DangKy";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+
+<div class=" container">
+    <div class=" register">
+        <h1>Đăng Ký Thành Viên</h1>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <hr />
+            @Html.ValidationSummary(true)
+            <div class="col-md-6 register-top-grid">
+                <h3>THÔNG TIN CÁ NHÂN</h3>
+                <div>
+                    <span>Tài Khoản</span>
+                    @Html.TextBox("TaiKhoan")
+                    <p style="color:red" id="TB_TaiKhoan"></p>
+                </div>
+                <div>
+                    <span>Họ tên</span>
+                    @Html.TextBox("HoTen")
+                    <p style="color:red" id="TB_HoTen"></p>
+                </div>
+                <div>
+                    <span>Địa Chỉ</span>
+                    @Html.TextBox("DiaChi")
+                    <p style="color:red" id="TB_DiaChi"></p>
+                </div>
+                <div>
+                    <span>Email</span>
+                    @Html.TextBox("Email")
+                    <p style="color:red" id="TB_Email"></p>
+                </div>
+                <div>
+                    <span>Số Điện Thoại</span>
+                    @Html.TextBox("SoDienThoai")
+                    <p style="color:red" id="TB_SDT"></p>
+                </div>
+            </div>
+            <div class="col-md-6 register-bottom-grid register-top-grid">
+                <h3>THÔNG TIN ĐĂNG NHẬP</h3>
+                <div>
+                    <span>Mật khẩu</span>
+                    @Html.Password("MatKhau")
+                    <p style="color:red" id="TB_MatKhau"></p>
+                </div>
+                <div>
+                    <span>Nhập lại</span>
+                    @Html.Password("NhapLaiMatKhau")
+                    <p style="color:red" id=""></p>
+                </div>
+                <div>
+                    <span>Câu hỏi bí mật</span>
+                    @Html.DropDownList("CauHoi")
+                </div>
+                <div>
+                    <span>Câu trả lời</span>
+                    @Html.TextBox("CauTraLoi")
+                    <p style="color:red" id="TB_TenKH"></p>
+                </div>
+                <div>
+                    <span>OTP</span>
+                    @Html.TextBox("OTP")
+                    <p style="color:red" id=""></p>
+                </div>
+                <div>
+                    @Html.Captcha(5)
+                </div>
+                <input type="submit" id="btnDatHang" class="btn btn-success" value="Xác nhận">
+
+            </div>
+            <div class="clearfix"> </div>
+        }
+    </div>
+</div>
+<h1 style="color:red;">@ViewBag.ThongBao</h1>
+<script type="text/javascript">
+    $("#btnDatHang").click(function () {
+        var loi = 0;
+
+        if ($("#DiaChi").val() == "") {
+            $("#TB_DiaChi").text("Địa chỉ không được bỏ trống !");
+            loi++;
+        }
+        else {
+
+            $("#TB_DiaChi").text("");
+        }
+        if ($("#TaiKhoan").val() == "") {
+            $("#TB_TaiKhoan").text("Tài khoản hàng không được bỏ trống !");
+            loi++;
+        }
+        else {
+
+            $("#TB_TaiKhoan").text("");
+        }
+        //if ($("#HoTen").val() == "") {
+        //    $("#TB_HoTen").text("Tên khách hàng không được bỏ trống");
+        //    loi++;
+        //}
+        //else {
+
+        //    $("#TB_HoTen").text("");
+        //}
+        dinhdang5 = /^\w+$/;
+        KTHoTen = dinhdang5.test($("#HoTen").val());
+        if (!KTHoTen) {
+            $('#TB_HoTen').text("Tên khách hàng không bỏ trống hoặc có các ký tự đặc biệt !");
+            loi++;
+
+        }
+
+        dinhdang = /^[0-9A-Za-z]+[0-9A-Za-z_]*@@[\w\d.]+\.\w{2,4}$/;
+        KTemail = dinhdang.test($("#Email").val());
+        if (!KTemail) {
+            $('#TB_Email').text("Email không hợp lệ !");
+            loi++;
+
+        }
+        dinhdang1 = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+        KTSDT = dinhdang1.test($("#SoDienThoai").val());
+        if (!KTSDT) {
+            $('#TB_SDT').text("Số Điện Thoại không hợp lệ !");
+            loi++;
+        }
+        if (loi != 0) {
+            return false;
+        }
+        dinhdang2 = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+        KTMatKhau = dinhdang2.test($("#MatKhau").ToString());
+        if (!KTMatKhau) {
+            $('#TB_MatKhau').text("Mật Khẩu phải từ 7 đến 15 ký tự chỉ chứa các ký tự, chữ số, dấu gạch dưới và ký tự đầu tiên phải là một chữ cái");
+            loi++;
+        }
+        if (loi != 0) {
+            return false;
+        }
+
+    });
+</script>
+
+
+

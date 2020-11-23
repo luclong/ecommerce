@@ -1,0 +1,172 @@
+﻿@using CaptchaMvc.HtmlHelpers
+@using CaptchaMvc;
+
+@using ecommerce.Models;
+@model ThanhVien
+
+@{
+    ViewBag.Title = "DangKy";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+
+<div class=" container">
+    <div class=" register">
+        <h1>Đăng Ký Thành Viên</h1>
+        @using (Html.BeginForm())
+        {
+            
+            <div class="col-md-6 register-top-grid">
+                <h3>THÔNG TIN CÁ NHÂN</h3>
+                <div>
+                    <span>Tài Khoản</span>
+                    @Html.TextBox("TaiKhoan")
+                    <p style="color:red" id="TB_TaiKhoan">@ViewBag.TaiKhoan</p>
+                </div>
+                <div>
+                    <span>Họ tên</span>
+                    @Html.TextBox("HoTen")
+                    <p style="color:red" id="TB_HoTen"></p>
+                </div>
+                <div>
+                    <span>Địa Chỉ</span>
+                    @Html.TextBox("DiaChi")
+                    <p style="color:red" id="TB_DiaChi"></p>
+                </div>
+                <div>
+                    <span>Email</span>
+                    @Html.TextBox("Email")
+                    <p style="color:red" id="TB_Email"></p>
+                </div>
+                <div>
+                    <span>Số Điện Thoại</span>
+                    @Html.TextBox("SoDienThoai")
+                    <p style="color:red" id="TB_SDT"></p>
+                </div>
+            </div>
+            <div class="col-md-6 register-bottom-grid register-top-grid">
+                <h3>THÔNG TIN ĐĂNG NHẬP</h3>
+                <div>
+                    <span>Mật khẩu</span>
+                    @Html.Password("MatKhau")
+                    <p style="color:red" id="TB_MatKhau"></p>
+                </div>
+                <div>
+                    <span>Nhập lại</span>
+                    @Html.Password("NhapLaiMatKhau")
+                    <p style="color:red" id="TB_NLMK"></p>
+                </div>
+                <div>
+                    <span>Câu hỏi bí mật</span>
+                    @Html.DropDownList("CauHoi")
+                </div>
+                <div>
+                    <span>Câu trả lời</span>
+                    @Html.TextBox("CauTraLoi")
+                    <p style="color:red" id="TB_TenKH"></p>
+                </div>
+                <div>
+                    <span>OTP</span>
+                    @Html.TextBox("OTP")
+                    <p style="color:red" id=""></p>
+                </div>
+                <div>
+                    @Html.Captcha(5)
+                    <p style="color:red;">@ViewBag.ThongBao</p>
+                </div>
+
+
+            </div>
+            <input type="submit" id="btnDatHang" class="btn btn-success" value="Xác nhận">
+            <div class="clearfix"> </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#btnDatHang").click(function () {
+        var loi = 0;
+
+        if ($("#DiaChi").val() == "") {
+            $("#TB_DiaChi").text("Địa chỉ không được bỏ trống !");
+            loi++;
+        }
+        else {
+
+            $("#TB_DiaChi").text("");
+        }
+        if ($("#TaiKhoan").val() == "") {
+            $("#TB_TaiKhoan").text("Tài khoản hàng không được bỏ trống !");
+            loi++;
+        }
+        else {
+
+            $("#TB_TaiKhoan").text("");
+        }
+        if ($("#HoTen").val() == "") {
+            $("#TB_HoTen").text("Tên khách hàng không được bỏ trống");
+            loi++;
+        }
+        else {
+
+            $("#TB_HoTen").text("");
+        }
+        
+
+        dinhdang = /^[0-9A-Za-z]+[0-9A-Za-z_]*@@[\w\d.]+\.\w{2,4}$/;
+        KTemail = dinhdang.test($("#Email").val());
+        if (!KTemail) {
+            $('#TB_Email').text("Email không hợp lệ !");
+            loi++;
+
+        }
+        else {
+
+            $("#TB_Email").text("");
+        }
+        dinhdang1 = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+        KTSDT = dinhdang1.test($("#SoDienThoai").val());
+        if (!KTSDT) {
+            $('#TB_SDT').text("Số Điện Thoại không hợp lệ !");
+            loi++;
+        }
+        else {
+
+            $("#TB_SDT").text("");
+        }
+        
+        dinhdang2 = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+        KTMatKhau = dinhdang2.test($("#MatKhau").val());
+        if (!KTMatKhau) {
+            $('#TB_MatKhau').text("Mật Khẩu phải từ 8 đến 15 ký tự chứa ít nhất một chữ cái thường, một chữ hoa, một chữ số và một ký tự đặc biệt");
+            loi++;
+        }
+        else {
+
+            $("#TB_MatKhau").text("");
+        }
+
+        if ($("#NhapLaiMatKhau").val() != $("#MatKhau").val()) {
+            $("#TB_NLMK").text("Mật Khẩu không Khớp!");
+            loi++;
+        }
+        else {
+
+            $("#TB_NLMK").text("");
+        }
+
+        //if ($("#MatKhau").val() == "") {
+        //    $("#TB_MatKhau").text("Không Được bỏ Trống");
+        //    loi++;
+        //}
+        //else {
+
+        //    $("#TB_MatKhau").text("");
+        //}
+        if (loi != 0) {
+            return false;
+        }
+    });
+</script>
+
+
+

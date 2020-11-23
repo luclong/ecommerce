@@ -1,0 +1,31 @@
+﻿@using ecommerce.Models;
+@model IEnumerable<SanPham>
+@{
+    ViewBag.Title = "ListSanPham";
+    Layout = "~/Views/Layout/HomeLayout.cshtml";
+}
+
+@{
+    IEnumerable<SanPham> lstDT = (IEnumerable<SanPham>)ViewBag.ListSPDT;
+    IEnumerable<SanPham> lstMTB = ViewBag.ListSPLT as IEnumerable<SanPham>;
+    IEnumerable<SanPham> lstLT = ViewBag.ListSPMTB as IEnumerable<SanPham>;
+}
+@*Cach1*@
+<div class="container">
+    <div class="content-top">
+        <h1>Điện Thoại Di Động</h1>
+        @Html.Partial("~/Views/SanPham/SanPhamStyle3Partial.cshtml", lstDT)
+    </div>
+</div>
+<div class="container">
+    <div class="content-top">
+        <h1>Máy Tính Bảng</h1>
+        @Html.Partial("~/Views/SanPham/SanPhamStyle1Partial.cshtml", lstMTB)
+    </div>
+</div>
+<div class="container">
+    <div class="content-top">
+        <h1>Laptop</h1>
+        @Html.Partial("~/Views/SanPham/SanPhamStyle1Partial.cshtml", lstLT)
+    </div>
+</div>

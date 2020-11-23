@@ -1,0 +1,13 @@
+﻿@*Dung ViewBag de hien Tong So Luong Va Tong Tien Trong Gio Hang*@
+<div class="cart box_1">
+    <a href="@Url.Action("XemGioHang","GioHang")">
+        <h3>
+            <div class="total">
+                @ViewBag.TongTien.ToString("##,#") VNĐ (<span>@ViewBag.TongSoLuong</span> sản phẩm)
+            </div>
+            <img src="~/Content/images/cart.png" alt="" />
+        </h3>
+    </a>
+    <p><a href="@Url.Action("XemGioHang","GioHang")" class="simpleCart_empty">Giỏ Hàng</a></p>
+
+</div>

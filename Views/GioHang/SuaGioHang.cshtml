@@ -1,0 +1,73 @@
+﻿@using ecommerce.Models
+@model  ItemGioHang
+@{
+    ViewBag.Title = "SuaGioHang";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+@{
+    List<ItemGioHang> lstGioHang = ViewBag.GioHang as List<ItemGioHang>;
+ }
+
+<table class="table">
+    <tr>
+        <td>Mã SP</td>
+        <td>Tên Sản Phẩm</td>
+        <td>Hình Ảnh</td>
+        <td>Số Lượng</td>
+        <td>Đơn Giá</td>
+        <td>Thành Giá</td>
+        <td></td>
+    </tr>
+    @foreach (var item in lstGioHang)
+    {
+        if (Model.MaSP == item.MaSP)
+        {
+            using (Html.BeginForm("CapNhatGioHang", "GioHang"))
+            {
+                <tr>
+                    <td>@item.MaSP @Html.Hidden("MaSP", item.MaSP)</td>
+                    <td>@item.TenSP</td>
+                    <td><img src="@Url.Content("~/Content/img-sp/SanPham/")@item.HinhAnh" width="50" height="50"></td>
+                    <td>
+                        @Html.TextBox("SoLuong", item.SoLuong, new {@class="SoLuongThayDoi"})
+                        <p id="TB_SoLuongThayDoi" style="color:#ff0000"></p>
+                    </td>
+
+                    <td>@item.DonGia.ToString("##,#") đồng</td>
+                    <td>@item.ThanhTien.ToString("##,#") đồng</td>
+                    <td>
+                        <input type="submit" value="Cập Nhật" id="btnCapNhatGH"/>
+                        @Html.ActionLink("Xoá", "XoaGioHang", new { @MaSP = item.MaSP })
+                    </td>
+
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>@item.MaSP</td>
+                <td>@item.TenSP</td>
+                <td><img src="@Url.Content("~/Content/img-sp/SanPham/")@item.HinhAnh" width="50" height="50"></td>
+                <td>@item.SoLuong</td>
+                <td>@item.DonGia.ToString("##,#") đồng</td>
+                <td>@item.ThanhTien.ToString("##,#") đồng</td>
+                <td>
+                    @Html.ActionLink("Sửa", "SuaGioHang", new { @MaSP = item.MaSP })
+                    @Html.ActionLink("Xoá", "XoaGioHang", new { @MaSP = item.MaSP })
+                </td>
+            </tr>
+        }
+    }
+</table>
+<script type="text/javascript">
+    $("#btnCapNhatGH").click(function () {
+        //Kiem tra so luong khong phai la so hoac nho hon 0
+        var SoLuong = $(".SoLuongThayDoi").val();
+        if (isNaN(SoLuong) == true || SoLuong < 0)
+        {
+            $("#TB_SoLuongThayDoi").text("Số lượng không hợp lệ!")
+            return false;
+        }
+    });
+</script>

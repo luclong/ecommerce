@@ -1,0 +1,74 @@
+﻿@using ecommerce.Models
+@model IEnumerable<DonDatHang>
+@{
+    ViewBag.Title = "DaGiaoDaThanhToan";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+    WebGrid grid = new WebGrid(source: Model, rowsPerPage: 20);
+}
+}
+
+<h2>Quản lý đơn hàng (Danh sách đơn hàng chưa giao và đã thanh toán)</h2>
+<ul class="nav navbar-nav">
+    <li role="presentation"><a href="@Url.Action("DonHangChuaThanhToan","QuanLyDonHang")">CHƯA THANH TOÁN</a></li>
+    <li role="presentation" ><a href="@Url.Action("ChuaGiao","QuanLyDonHang")">CHƯA GIAO & THANH THANH TOÁN</a></li>
+    <li role="presentation" class="active"><a href="@Url.Action("DaGiaoDaThanhToan","QuanLyDonHang")">ĐÃ GIAO & THANH TOÁN</a></li>
+</ul>
+@*Dung truy van control the hien model la danh sach don dat hang duoc truy van theo su kien controller*@
+@grid.GetHtml(
+    tableStyle: "divTable",
+    headerStyle: "gridHead",
+    footerStyle: "gridFooter",
+    rowStyle: "gridRow",
+    alternatingRowStyle: "gridAltRow",
+    columns: grid.Columns(
+    grid.Column("MaDDH",header: "Mã Đơn Đặt Hàng"),
+    grid.Column("MaKH", header: "Họ Tên Khách Hàng",format: p => p.MaKH != null ? p.KhachHang.TenKH:""),
+    grid.Column("NgayDat", header: "Ngày Đặt"),
+    grid.Column("TinhTrangGiaoHang", header: "Tình Trạng Đơn Hàng"),
+    grid.Column("NgayGiao", header: "Ngày Giao"),
+    grid.Column("DaThanhToan", header: "Tình Trạng Thanh Toán"),
+    grid.Column("UuDai", header: "Ưu Đãi"),
+    grid.Column("DaHuy", header: "Đã Huỷ"),
+    grid.Column(format: p => Html.ActionLink("Duyệt đơn hàng", "DuyetDonHang", new {id=p.MaDDH }))
+    ))
+<style>
+    .nav > li {
+        background: rgba(0,0,0,0.5);
+    }
+    .divTable {
+        width: 100%;
+        border: 1px solid #999999;
+    }
+
+        .divTable td {
+            border: 1px solid #999999;
+        }
+
+    .gridHead {
+        background-color: Green;
+    }
+
+        .gridHead > th > a {
+            color: #fff;
+        }
+
+    .gridFooter {
+        font-weight: bold;
+    }
+    .divTable a{
+        color:blue;
+    }
+    /*.gridRow{
+        color:#fff;
+        background-color:blueviolet;
+    }
+    .gridAltRow {
+        color: #fff;
+        background-color: darkorange;
+    }*/
+    .FooterAdmin {
+        display: none;
+    }
+</style>
+
+

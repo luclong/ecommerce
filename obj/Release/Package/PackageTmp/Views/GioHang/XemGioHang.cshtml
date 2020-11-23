@@ -1,0 +1,149 @@
+﻿@using ecommerce.Models
+@model List<ItemGioHang>
+@{
+    ViewBag.Title = "XemGioHang";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+
+@if (Model == null || Model.Count == 0)
+{
+    <h1 style="color:#000;">Giỏ hàng rỗng</h1>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <td>Mã SP</td>
+            <td>Tên Sản Phẩm</td>
+            <td>Hình Ảnh</td>
+            <td>Số Lượng</td>
+            <td>Đơn Giá</td>
+            <td>Thành Tiền</td>
+            <td></td>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaSP</td>
+                <td>@item.TenSP</td>
+                <td><img src="@Url.Content("~/Content/img-sp/SanPham/")@item.HinhAnh" width="50" height="50"></td>
+                <td>@item.SoLuong</td>
+                <td>@item.DonGia.ToString("##,#") đồng</td>
+                <td>@item.ThanhTien.ToString("##,#") đồng</td>
+                <td>
+                    @Html.ActionLink("Sửa", "SuaGioHang", new { @MaSP = item.MaSP })
+                    @Html.ActionLink("Xoá", "XoaGioHang", new { @MaSP = item.MaSP })
+                </td>
+            </tr>
+        }
+        <tr>
+            
+            <td colspan="5" align="right" style="color:red">Tổng Tiền:</td>
+            <td style="color:red" colspan="2" align="left">@ViewBag.TongTien.ToString("##,#") VNĐ</td>
+            <td></td>
+        </tr>
+    </table>
+
+
+
+    using (Html.BeginForm("DatHang", "GioHang"))
+    {
+        if (Session["TaiKhoan"] == null)
+        {
+        @*Thiet ke form lu thong tin khach hang doi voi khach hang vang lai (chua co tai khoan)*@
+    <div class="ThongTinMuaHang">
+        <table align="center" class="table">
+            <tr>
+                <td align="center" colspan="2">Thông tin khách hàng</td>
+            </tr>
+            <tr>
+                <td>Họ tên</td>
+                <td>
+                    @Html.TextBox("TenKH")
+                    <p style="color:red" id="TB_TenKH"></p>
+                </td>
+            </tr>
+            <tr>
+                <td>Địa Chỉ</td>
+                <td>
+                    @Html.TextArea("DiaChi")
+                    <p style="color:red" id="TB_DiaChi"></p>
+                </td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>
+                    @Html.TextBox("Email")
+                    <p id="TB_Email" style="color:red"></p>
+                </td>
+            </tr>
+            <tr>
+                <td>Điện Thoại</td>
+                <td>
+                    @Html.TextBox("SoDienThoai")
+                    <p id="TB_SDT" style="color:red"></p>
+                </td>
+            </tr>
+
+
+        </table>
+        <script type="text/javascript">
+            $("#btnDatHang").click(function () {
+                var loi = 0;
+
+                if ($("#DiaChi").val() == "") {
+                    $("#TB_DiaChi").text("Tên khách hàng không được bỏ trống");
+                    loi++;
+                }
+                else {
+
+                    $("#TB_DiaChi").text("");
+                }
+                if ($("#TenKH").val() == "") {
+                    $("#TB_TenKH").text("Tên khách hàng không được bỏ trống");
+                    loi++;
+                }
+                else {
+
+                    $("#TB_TenKH").text("");
+                }
+
+                dinhdang = /^[0-9A-Za-z]+[0-9A-Za-z_]*@@[\w\d.]+\.\w{2,4}$/;
+                KTemail = dinhdang.test($("#Email").val());
+                if (!KTemail) {
+                    $('#TB_Email').text("Email không hợp lệ !");
+                    loi++;
+
+                }
+                dinhdang = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+                KTemail = dinhdang.test($("#SoDienThoai").val());
+                if (!KTemail) {
+                    $('#TB_SDT').text("Số Điện Thoại không hợp lệ !");
+                    loi++;
+                }
+                if (loi != 0) {
+                    return false;
+                }
+
+            });
+        </script>
+
+    </div>
+        }
+
+        <div class="divDatHang" style="text-align:right">
+            <input type="submit" value="Đặt hàng" class="btn btn-danger" id="btnDatHang"/>
+            @Html.ActionLink("Mua tiếp", "Index", "Home",null, new { @class = "btn btn-success" })
+        </div>
+    }
+}
+<style>
+    input[type="submit"] {
+        padding:10px;
+        margin:0;
+    }
+</style>
+@*Kiem validation thong qua jquery*@
+
+
+

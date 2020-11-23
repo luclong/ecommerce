@@ -1,0 +1,71 @@
+﻿@using ecommerce.Models
+@model ecommerce.Models.DonDatHang
+
+@{
+    ViewBag.Title = "DuyetDonHang";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+
+<h2>Thông tin đơn hàng <font color="#f65e84">@Model.KhachHang.TenKH</font></h2>
+@using (Html.BeginForm())
+{
+    <div class="ChiTietDonHang table">
+        @{IEnumerable<ChiTietDonDatHang> lstChiTietDatHang = (IEnumerable<ChiTietDonDatHang>)ViewBag.ListChiTietDonHang;}
+        <table class="table" id="table">
+            <tr>
+                <td colspan="4">
+                    <table style="width:100%">
+                        <tr>
+                            <td>Mã đơn hàng: <b style="color:red;">@Model.MaDDH @Html.Hidden("MaDDh", Model.MaDDH)</b></td>
+                            <td>Mã khách hàng: <b style="color:red">@Model.KhachHang.MaKH</b></td>
+                            <td>Tên khách hàng: <b style="color:red">@Model.KhachHang.TenKH</b></td>
+                            <td>Ngày đặt: <b style="color:red">@Model.NgayDat.Value.ToString("dd/MM/yyyy")</b></td>
+                            <td>Tình Trạng Thanh Toán: @Html.EditorFor(model => model.DaThanhToan)</td>
+                            <td>Tình Trạng Giao Hàng: @Html.EditorFor(model => model.TinhTrangGiaoHang)</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td><b>Sản Phẩm</b></td>
+                <td><b>Hình Ảnh</b></td>
+                <td><b>Số Lượng Đặt</b></td>
+                <td><b>Đơn Giá Đặt</b></td>
+            </tr>
+            @foreach(var item in lstChiTietDatHang)
+             {
+                <tr>
+                    <td>@item.TenSP</td>
+                    <td><img width="150" height="120" src="@Url.Content("~/Content/img-sp/SanPham/"+item.SanPham.HinhAnh)"</td>
+                    <td>@item.SoLuong</td>
+                    <td>@item.DonGia</td>
+                </tr>
+             }
+                <tr>
+                    <td align="right" colspan="4">Tổng số lượng: @Model.ChiTietDonDatHang.Sum(n => n.SoLuong) sản phẩm</td>
+                </tr>
+                <tr>
+                    <td align="right" colspan="4">Tổng Tiền: @Model.ChiTietDonDatHang.Sum(n => n.SanPham.DonGia).Value.ToString("#,##") đồng</td>
+                </tr>
+        </table>
+        <br /> <br />
+        <input type="button" value="In hoá đơn" id="btnInHoaDon"/>
+        <input type="submit" value="Lưu Hoá Đơn" id="btnInDonHang"/>
+    </div>
+}
+<script>
+    $("#btnInHoaDon").click(function () {
+        var content ="<table>"+ $("#table").html()+"</table>";
+        InDonHang(content);
+    });
+    function InDonHang(content)
+    {
+        var printWindown = window.open('', '', 'height=400,width=800');
+        printWindown.document.write('<html><head><title>Hoá Đơn</title>');
+        printWindown.document.write('</head><body >');
+        printWindown.document.write(content);
+        printWindown.document.write('</body></html>');
+        printWindown.document.close();
+        printWindown.print();
+    }
+</script>

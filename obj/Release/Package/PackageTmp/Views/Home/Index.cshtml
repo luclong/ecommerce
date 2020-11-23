@@ -1,0 +1,40 @@
+﻿@using ecommerce.Models;
+@model IEnumerable<SanPham>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/HomeLayout.cshtml";
+}
+@{
+    IEnumerable<SanPham> lstDT = (IEnumerable<SanPham>)ViewBag.ListDT;
+    IEnumerable<SanPham> lstMTB = ViewBag.ListMTB as IEnumerable<SanPham>;
+    IEnumerable<SanPham> lstLT = ViewBag.ListLT as IEnumerable<SanPham>;
+ }
+@*Buoc 1: Chung ta tach code va long PartialView*@
+@*Buoc 2: Gan du lieu Controller thong qua ViewBag vao partialview*@
+
+
+<div class="content-top">
+    @*DienThoai*@
+    <h1>Điện Thoại Mới Nhất</h1>
+    <div class="grid-in">
+        <div class="container">
+            @Html.Partial("~/Views/SanPham/SanPhamStyle1Partial.cshtml", lstDT)
+        </div>
+    </div>
+    @*MayTinhBang*@
+    <h1>Laptop Mới Nhất</h1>
+    <div class="grid-in">
+        <div class="container">
+            @Html.Partial("~/Views/SanPham/SanPhamStyle2Partial.cshtml", lstLT)
+        </div>
+    </div>
+    @*MayTinhBang*@
+    <h1>Máy Tính Bảng Mới Nhất</h1>
+    <div class="grid-in">
+        <div class="container">
+            @Html.Partial("~/Views/SanPham/SanPhamStyle1Partial.cshtml", lstMTB)
+        </div>
+    </div>
+
+
+</div>
